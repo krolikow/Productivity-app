@@ -7,22 +7,30 @@ from django.urls import reverse_lazy
 from .models import Task
 
 
-def planner_view(request, *args, **kwargs):
-    return render(request, "planner.html", {})
-
-
 class TaskList(ListView):
     model = Task
     context_object_name = 'tasks'
+    monday = Task.objects.filter(day ='M')
 
 class TaskDetail(DetailView):
     model = Task
     fields = '__all__'
-    context_object_name = 'task'
+    context_object_name = 'task' 
 
 class TaskCreate(CreateView):
     model = Task
-    fields = '__all__'
+    fields = ['title','description','complete']
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskCreate, self).get_context_data(**kwargs)
+        context['day'] = self.kwargs['day']
+        return context
+
+    def form_valid(self, form): 
+        form.instance.day = self.kwargs['day']
+        # context = {'day':self.kwargs['day']} // redundant?
+        return super(TaskCreate, self).form_valid(form)
+
     success_url = reverse_lazy('tasks')
 
 class TaskUpdate(UpdateView):
