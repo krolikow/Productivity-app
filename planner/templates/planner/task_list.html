@@ -1,12 +1,9 @@
 <!doctype html>
 <html lang="en">
-<!--    {%load static %}-->
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
@@ -24,6 +21,11 @@ body {
     font-family: 'Xanh Mono', monospace;
 }
 
+.title{
+  word-wrap: break-word;
+  width: 150px;
+
+}
 
 .container-fluid {
     height: 100%;
@@ -37,25 +39,29 @@ body {
 
 .card.h-100{
     min-width: 20rem;
-    background-color:azure;
+    background-color:rgb(168, 212, 212);
     margin-top: 2rem;
+    width: auto;
+    max-width: 100%;
 }
 
 .card-body{
-    background-color: rgb(182, 235, 217);
-    position: relative;
+    background-color: rgb(209, 230, 236);
 } 
 
 .task{
+    position: relative;
     display: flex;
     right: 0;
     left: 0;
-    width: auto;
+    width: 100%;
     border-bottom: solid 1px lightgrey; 
     padding: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+}
+
+a{
+  text-decoration: none;
+  color: rgb(46, 82, 82);
 }
 
 </style>
@@ -92,7 +98,7 @@ body {
                         {% for task in object_list %}
                         {% if task.day == 'M' %}
                         <tr class = 'task'>
-                            <td>{{task.title}}</td>
+                            <td class="title">{{task.title}}</td>
                             <td><a href="{% url 'task' task.id %}">View</a></td>
                             <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
                             <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
@@ -130,7 +136,7 @@ body {
                         {% for task in object_list %}
                         {% if task.day == 'T' %}
                         <tr class = 'task'>
-                            <td>{{task.title}}</td>
+                            <td class="title">{{task.title}}</td>
                             <td><a href="{% url 'task' task.id %}">View</a></td>
                             <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
                             <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
@@ -167,7 +173,7 @@ body {
                         {% for task in object_list %}
                         {% if task.day == 'W' %}
                         <tr class = 'task'>
-                            <td>{{task.title}}</td>
+                            <td class="title">{{task.title}}</td>
                             <td><a href="{% url 'task' task.id %}">View</a></td>
                             <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
                             <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
@@ -188,12 +194,35 @@ body {
             </div>
 
 
-              <!-- <div class="col">
+              <div class="col">
               <div class="card h-100">
                 <div class="card-header text-dark bg-light text-center text-uppercase">
                  Thursday
                 </div>
                   <div class="card-body">
+
+                    <a href="{% url 'task-create' day='Th' %}">Add Task</a>
+                    
+                    <table>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        </tr>
+                        {% for task in object_list %}
+                        {% if task.day == 'Th' %}
+                        <tr class = 'task'>
+                            <td class="title">{{task.title}}</td>
+                            <td><a href="{% url 'task' task.id %}">View</a></td>
+                            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
+                            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <h3>
+                            No items in list
+                        </h3>
+                        {% endfor %}
+                    </table>
 
                     <p class="card-text w-100 h-100" style="border: none; resize: none;">
 
@@ -201,7 +230,9 @@ body {
                   </div>
               </div>
             </div>
-
+          </div>
+          <div class="row row-second h-50 ">      
+ 
               <div class="col">
               <div class="card h-100">
                 <div class="card-header text-dark bg-light text-center text-uppercase">
@@ -209,6 +240,29 @@ body {
                 </div>
                   <div class="card-body">
 
+                    <a href="{% url 'task-create' day='F' %}">Add Task</a>
+                    
+                    <table>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        </tr>
+                        {% for task in object_list %}
+                        {% if task.day == 'F' %}
+                        <tr class = 'task'>
+                            <td class="title">{{task.title}}</td>
+                            <td><a href="{% url 'task' task.id %}">View</a></td>
+                            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
+                            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <h3>
+                            No items in list
+                        </h3>
+                        {% endfor %}
+                    </table>
+
                     <p class="card-text w-100 h-100" style="border: none; resize: none;">
 
                     </p>
@@ -216,12 +270,37 @@ body {
               </div>
             </div>
 
+
+
               <div class="col">
               <div class="card h-100">
                 <div class="card-header text-dark bg-light text-center text-uppercase">
                  Saturday
                 </div>
                   <div class="card-body">
+
+                    <a href="{% url 'task-create' day='Sa' %}">Add Task</a>
+                    
+                    <table>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        </tr>
+                        {% for task in object_list %}
+                        {% if task.day == 'Sa' %}
+                        <tr class = 'task'>
+                            <td class="title">{{task.title}}</td>
+                            <td><a href="{% url 'task' task.id %}">View</a></td>
+                            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
+                            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <h3>
+                            No items in list
+                        </h3>
+                        {% endfor %}
+                    </table>
 
                     <p class="card-text w-100 h-100" style="border: none; resize: none;">
 
@@ -237,13 +316,50 @@ body {
                 </div>
                   <div class="card-body">
 
+                    <a href="{% url 'task-create' day='Su' %}">Add Task</a>
+                    
+                    <table>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        </tr>
+                        {% for task in object_list %}
+                        {% if task.day == 'Su' %}
+                        <tr class = 'task'>
+                            <td class="title">{{task.title}}</td>
+                            <td><a href="{% url 'task' task.id %}">View</a></td>
+                            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
+                            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <h3>
+                            No items in list
+                        </h3>
+                        {% endfor %}
+                    </table>
+
                     <p class="card-text w-100 h-100" style="border: none; resize: none;">
 
                     </p>
                   </div>
               </div>
-            </div> -->
+            </div> 
 
+
+            <div class="col">
+              <div class="card h-100">
+                <div class="card-header text-dark bg-light text-center text-uppercase">
+                 Something
+                </div>
+                  <div class="card-body">
+
+                    <p class="card-text w-100 h-100" style="border: none; resize: none;">
+
+                    </p>
+                  </div>
+              </div>
+            </div> 
 
 </div>
 
@@ -255,8 +371,8 @@ body {
 
 <!--    &lt;!&ndash; Optional JavaScript; choose one of the two! &ndash;&gt;-->
 
-<!--    &lt;!&ndash; Option 1: Bootstrap Bundle with Popper &ndash;&gt;-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>-->
+     <!-- &lt;!&ndash; Option 1: Bootstrap Bundle with Popper &ndash;&gt;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
 
 <!--    &lt;!&ndash; Option 2: Separate Popper and Bootstrap JS &ndash;&gt;-->
 <!--    &lt;!&ndash;-->
