@@ -1,6 +1,6 @@
-# Readme !!!!!!!!!!!!!!!!!!!!!!!
+# Readme 
 
-login i haslo do amina, nie rob drugiego superusera czasami
+login i haslo do admina
 
 login: kozak
 haslo: pythonkkk
