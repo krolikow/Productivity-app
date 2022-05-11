@@ -1,0 +1,68 @@
+<h3>Shopping list</h3>
+<a href="{% url 'tasks' %}">Back</a>
+
+{% load static %}
+<div class="content">
+
+  <div class="list">
+    <div id="myDIV" class="header">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{% static 'shopping_list/styles.css' %}"/>
+      <h1> New List </h1>
+      <h3> Type items below to add to your list. Click on the item to mark it as complete. You can delete an item by clicking 'X' or you can clear the full list by selecting 'Clear List'. </h3>
+     
+      <form action = "{% url 'add' %}" method = "POST" role = "form">
+      {% csrf_token %}
+      {{ form.text }}
+      </form>
+    </div>
+    
+    <!-- <ul id="myUL">
+      {% for item in list %}
+          {% if item.complete %}
+           <li class="checked">{{ item.text }} <a href = "{% url 'deleteitem' item.id %}"><span class="close"> X </span></a> </li>
+        {% else %}
+          <li> <a href = "{% url 'complete' item.id %}"> {{ item.text }} </a> <a href = "{% url 'deleteitem' item.id %}"><span class="close"> X </span></a></li>
+        {% endif %}  
+      {% endfor %}
+    </ul>
+    
+    <a href = "{% url 'deleteall' %}"><span class="clearlist"> Clear List </span></a>
+    <button> Save </button>
+  </div> -->
+  <ul id="myUL">
+    {% for item in object_list %}
+        {% if item.complete %}
+         <li class="checked">{{ item.title }} <a href = "{% url 'deleteitem' item.id %}"><span class="close"> X </span></a> </li>
+      {% else %}
+        <li> <a href = "{% url 'complete' item.id %}"> {{ item.title }} </a> <a href = "{% url 'deleteitem' item.id %}"><span class="close"> X </span></a></li>
+      {% endif %}  
+    {% endfor %}
+  </ul>
+  
+  <a href = "{% url 'deleteall' %}"><span class="clearlist"> Clear List </span></a>
+  <input value="Add a new item" type="button" onclick="location.href='#'" />
+  <!-- <button> Save </button> -->
+</div>
+  
+  <div class="all_lists">
+    <div id="myDIV" class="header">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{% static 'shopping_list/styles.css' %}"/>
+      {% if object_list %}
+      <h3>All my lists</h3>
+      {% endif %}
+      <ul>
+          {% for todolist in object_list %}
+          <li>
+              <div role="button" onclick="location.href = '{% url ';list;' todolist.id %}' "> 
+                {{ todolist.title }}</div>
+          </li>
+          {% empty %}
+          <h4>You have no lists!</h4>
+          {% endfor %}
+      </ul>
+  </div>
+
+</div>
+
