@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'planner.apps.PlannerConfig',
     'users.apps.UsersConfig',
+    'shopping_list.apps.ShoppingListConfig'
 ]
 
 MIDDLEWARE = [
@@ -54,10 +55,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'productivity_app.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [Path.joinpath(BASE_DIR, "../planner/templates")],
+        'DIRS': [Path.joinpath(BASE_DIR, './templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +71,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+
+TEMPLATE_LOADERS = [
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
+    # 'django.template.loaders.eggs.load_template_source',
 ]
 
 WSGI_APPLICATION = 'productivity_app.wsgi.application'

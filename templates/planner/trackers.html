@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--index.html-->
+{% if object_list %}
+<h3>My trackers</h3>
+{% endif %}
+<ul>
+    {% for tracker in object_list %}
+    <li>
+        <div role="button"
+            onclick="location.href='{% url "tracker" tracker.id %}'">
+            {{ tracker.title }}
+        </div>
+    </li>
+    {% empty %}
+    <h4>You have no trackers!</h4>
+    {% endfor %}
+</ul>
+<p>
+
+</p>
+
+{% endblock %}

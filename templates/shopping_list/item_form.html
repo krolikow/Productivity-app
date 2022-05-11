@@ -9,7 +9,7 @@
         {{ form.as_table }}
     </table>
     <input type="Submit" value="Submit">
-    <input value="Cancel" type="button" onclick="location.href="{% url " list " shopping_list.id %}" ">
+    <input value="Cancel" type="button" onclick="location.href='{% url "list" shopping_list.id %}';" />
     {% if object %}
     <input value="Delete this item" type="button"
         onclick=" location.href='{% url "item-delete" shopping_list.id object.id %}' ">

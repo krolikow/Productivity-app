@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Item,Task,ShoppingList
+from .models import Task,Tracker
 
 admin.site.register(Task)
-admin.site.register(ShoppingList)
-admin.site.register(Item)
+admin.site.register(Tracker)

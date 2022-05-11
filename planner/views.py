@@ -1,14 +1,32 @@
 from pyexpat import model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.views.decorators.http import require_POST
 from django.views.generic.list import ListView
+from django.contrib import messages
+from django.utils.timezone import localtime
+from users.models import Profile
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from django.urls import reverse_lazy,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template import loader
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.db.models import Sum
+import xlwt
+import pandas as pd
+import datetime
+from datetime import datetime as datetime_custom
+from django.db.models import Q
 
-from .models import Task,ShoppingList,Item
+from .models import Task,Data,Tracker
 from .forms import ShoppingForm
+
+
+################ TASKS ##############################
+
 
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
@@ -58,145 +76,67 @@ class DeleteView(LoginRequiredMixin, DeleteView):
 
 
 
-# class ListListView(ListView):
-#     model = ShoppingList
-#     template_name = "shopping_list\\shopping.html"
+class TrackerList(ListView):   
+    model = Tracker
+    template_name = "planner/trackers.html"
 
 
-# class ItemListView(ListView):
-#     model = Item
-#     template_name = "shopping_list\\shopping.html"
+@login_required(login_url='login')
+def tracker_page(request):
 
-#     def get_queryset(self):
-#         return Item.objects.filter(shopping_list_id=self.kwargs["list_id"])
+    filter_context = {}
+    base_url = f''
+    date_from_html = ''
+    date_to_html = ''
 
-#     def get_context_data(self):
-#         context = super().get_context_data()
-#         context["shopping_list"] = ShoppingList.objects.get(id=self.kwargs["list_id"])
-#         return context
+    data_set =  Data.objects.filter(
+        user = request.user
+    ).order_by('-date')
 
+    try:
 
+        if 'date_from' in request.GET and request.GET['date_from'] != '':
+            date_from = datetime_custom.strptime(request.GET['date_from'],'%Y-%m-%d')
+            filter_context['date_from'] = request.GET['date_from']
+            date_from_html = request.GET['date_from']
 
-# def shopping(request):
-#     all_lists = ShoppingList.objects.all()
-#     list = ShoppingList.objects.order_by("id")
-#     form = ShoppingForm()
+            if 'date_to' in request.GET and request.GET['date_to'] != '':
 
-#     context ={"list":list,"all_lists" : all_lists, "form": form}
-#     return render (request, "shopping_list\\shopping.html" , context)
+                date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
+                filter_context['date_to'] = request.GET['date_to']
+                date_to_html = request.GET['date_to']
+                data_set = data_set.filter(
+                    Q(date__gte = date_from )
+                    &
+                    Q(date__lte = date_to)
+                ).order_by('-date')
 
-# @require_POST
-# def addItem(request):
-#     form = ShoppingForm(request.POST)
+            else:
+                data_set = data_set.filter(
+                    date__gte = date_from
+                ).order_by('-date')
 
-#     if form.is_valid():
-#         new_item = ShoppingList(text = request.POST['text'])
-#         new_item.save()
+        elif 'date_to' in request.GET and request.GET['date_to'] != '':
 
-#     return (redirect('list-create'))
+            date_to_html = request.GET['date_to']
+            date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
+            filter_context['date_from'] = request.GET['date_to']
+            data_set = data_set.filter(
+                date__lte = date_to
+            ).order_by('-date')
+    
+    except:
+        messages.error(request,'Something went wrong')
+        return redirect('trackers')
+    
+    base_url = f'?date_from={date_from_html}&date_to={date_to_html}&'
+    paginator = Paginator(data_set,5)
+    page_number = request.GET.get('page')
+    page_expenses = Paginator.get_page(paginator,page_number)
 
-# def completeItem(request, item_id):
-#     item = ShoppingList.objects.get(pk=item_id)
-#     item.complete = True
-#     item.save()
-
-#     return (redirect('list-create'))
-
-
-# def deleteItem(request, item_id):
-#     item = ShoppingList.objects.get(pk=item_id)
-#     item.delete()
-#     return redirect('list-create')
-
-# def deleteAll(request):
-#     ShoppingList.objects.all().delete()
-#     return redirect('list-create')
-
-
-
-
-
-class ListListView(ListView):
-    model = ShoppingList
-    template_name = "shopping_list/index.html"
-
-
-class ItemListView(ListView):
-    model = Item
-    template_name = "shopping_list/shopping_list.html"
-
-    def get_queryset(self):
-        return Item.objects.filter(shopping_list_id=self.kwargs["list_id"])
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["shopping_list"] = ShoppingList.objects.get(id=self.kwargs["list_id"])
-        return context
-
-
-class ListCreate(CreateView):
-    model = ShoppingList
-    fields = ["title"]
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["title"] = "Add a new list"
-        return context
-
-
-class ItemCreate(CreateView):
-    model = Item
-    fields = [
-        "shopping_list",
-        "title",
-    ]
-
-    def get_initial(self):
-        initial_data = super().get_initial()
-        shopping_list = ShoppingList.objects.get(id=self.kwargs["list_id"])
-        initial_data["shopping_list"] = shopping_list
-        return initial_data
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        shopping_list = ShoppingList.objects.get(id=self.kwargs["list_id"])
-        context["shopping_list"] = shopping_list
-        context["title"] = "Create a new item"
-        return context
-
-    def get_success_url(self):
-        return reverse("list", args=[self.object.shopping_list_id])
-
-
-class ItemUpdate(UpdateView):
-    model = Item
-    fields = [
-        "shopping_list",
-        "title"
-    ]
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["shopping_list"] = self.object.shopping_list
-        context["title"] = "Edit item"
-        return context
-
-    def get_success_url(self):
-        return reverse("list", args=[self.object.shopping_list_id])
-
-
-class ListDelete(DeleteView):
-    model = ShoppingList
-    success_url = reverse_lazy("index")
-
-
-class ItemDelete(DeleteView):
-    model = Item
-
-    def get_success_url(self):
-        return reverse_lazy("list", args=[self.kwargs["list_id"]])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["shopping_list"] = self.object.shopping_list
-        return context
+    return render(request,'expense_app/expense.html',{
+        'page_expenses':page_expenses,
+        'expenses':expenses,
+        'filter_context':filter_context,
+        'base_url':base_url
+    })
