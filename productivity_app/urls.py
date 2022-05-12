@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('planner/', include('planner.urls'), name='planner'),
     path('list/', include('shopping_list.urls'), name='shopping_list'),
+    path('trackers/', include('trackers.urls'), name='trackers'),
     path('', include('users.urls')),
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html',
                                            authentication_form=LoginForm), name='login'),

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/arrow.css' %}" type="text/css">
+  <div class="main-content" id="panel">
+    <div class="header bg-primary pb-6">
+      <div class="mr-5 ml-5"><div class="mr-5 ml-5"></div></div>
+      <div class="container-fluid"><div class="header-body"><div class="row align-items-center py-4"><div class="col-lg-5 col-6">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4"></nav></div><div class="col-md-3 text-right ml--5 mr-5"><div class="input-group input-group-alternative input-group-merge"><div class="input-group-prepend">
+                      <span style="border-end-start-radius: 50%; border-start-start-radius: 50%;" class="input-group-text"><i class="fas fa-search"></i></span></div>
+                      <div class="input-group-append"><span style="border-end-end-radius: 50%; border-start-end-radius: 50%;" 
+                         class="input-group-text"></span></div></div></div><div class="col-md-2 text-right ml-3 mr--3">
+                        </div><div class="col-md-2 text-right ml--4"><a href="
+                            " class="btn btn btn-neutral">Create New</a></div></div><hr class="mt--2"/><div class="row align-items-center py-4"><div class="col mt--5 ml-5">
+                                <form method="GET" class="form-inline ml-5" action=""><div class="form-group"><span class="text-white ml-5">
+                                    From: <input class="ml-1 form-control form-control-sm col-md-8" id="date_from" name="date_from" type="date" value=
+                                     /></span></div><div class="form-group"><span class="text-white ml-5">To: <input class="ml-1 form-control form-control-sm col-md-9" id="date_to" 
+                                        name="date_to" value="{{ filter_context.date_to }}" type="date" /></span></div><div class="ml-5"><span class="ml-5"><button 
+                                            class="ml-5 mr-3 btn btn-success btn-sm">Filter</button></span></div><button onclick="clearFilters()" 
+                                            class="mr-5 ml-2 btn btn-danger btn-sm">Clear</button></form></div></div><hr class="mt--2"/></div></div>
+    </div>
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col">
+          <div class="card bg-default">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">  
+                <div class="col">
+                  {% if items %}
+                    <h5 class="h3 text-white mb-0 text-center">My Trackers - <span id="expense_count">{{ trackers.count }}</span></h5>
+                    <div class="app-table mt-5">
+
+                      <table id="table-complete" class="table text-white">
+                        <thead><tr><th style="font-size: small;"><span class="row">Amount<span class="col"><div class="mb-1 arrow-up" id="amount_up">
+
+                        </div><div class="arrow-down" id="amount_down"></div></span> </span></th>
+                        <th style="font-size: small;">Description </th><th style="font-size: small;"><span class="row ml-1"> Date <span class="col">
+                            <div class="mb-1 arrow-up" id="date_up"></div><div class="arrow-down" id="date_down"></div></th><th style="font-size: small;">Action</th>
+                        </tr></thead>
+                        <tbody id="table-body-data" >{% for data in items %}<tr><td>{{data.amount}}</td>
+                            <td>{{data.description | truncatechars:30 }}</td><td>{{data.date}}</td><td>Edit</a></td></tr>{% endfor %}</tbody>
+                      </table>
+                    </div>
+
+
+                    <div class="container-fluid"><div class="header-body"><div class="row align-items-center py-4">
+                      <div class="col-lg-6 col-7"><nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4"></nav></div><div class="col-lg-6 col-5 text-right">
+                            <button id="week" class="btn btn btn-neutral">This Week</button>
+                            <button id="month" class="btn btn btn-neutral">This Month</button>
+                            <button id="year" class="btn btn btn-neutral">This Year</button>
+                          </div></div></div></div></div>
+
+ 
+                          <div class="chart-container" style="position: relative; height:500px; width: 1000px;">
+      
+                            <canvas id="myChart" class="chart-canvas chartjs-render-monitor" width="1000" height="500"></canvas>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias commodi eius itaque beatae vero eveniet sapiente sint rerum sequi! Consequatur hic illo eligendi inventore autem at illum a porro. Officiis distinctio, harum in nobis, a, labore alias quos asperiores sed quibusdam repellat voluptas doloribus voluptatem fuga neque sint beatae unde suscipit. Adipisci laborum doloremque odio! Rerum aut fugiat praesentium omnis tempora modi, ab facere totam veritatis labore magni dignissimos iste fuga quae animi, perferendis eligendi illo quia debitis saepe, nemo vel rem dolorum incidunt! Alias, fuga quis ad suscipit sint velit officiis facere atque asperiores deserunt perferendis adipisci reprehenderit quos est quod, iusto non minima, culpa repudiandae explicabo voluptas vero. Iusto voluptatem voluptas quisquam molestias! Earum quibusdam error quos, minima dolorum, consequatur saepe inventore cum aperiam necessitatibus doloremque animi fugiat cumque, placeat omnis reiciendis rem sed odit ratione eos debitis consequuntur sit. Qui quae laborum, harum nisi, dolorum perspiciatis, cumque temporibus unde nostrum possimus ratione. Nam blanditiis fugiat ipsa? Sint officia veritatis, ullam, nam quo ex omnis ratione reprehenderit impedit labore beatae cum iure amet dolor est, assumenda pariatur maxime? Adipisci quidem inventore sed mollitia, distinctio corrupti laborum vel neque ipsa iste perspiciatis nostrum earum eaque numquam deserunt magni consectetur.</p>
+                  {% else %}<h5 class="h3 text-white mb-0 text-center">Add data <a href=>one</a></h5>{% endif %}
+                  <h5 style="display: none;" id="no-results" class="h3 text-danger mt-5 mb-0 text-center">No expenses found for searched item.</h5>
+            </div>
+          </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    <script src="./chart.js"></script>
+
+    <script>
+      var labels = [{% for item in labels %} '{{item}}' ,  {% endfor %}];
+      var data = JSON.parse('{{data}}');
+      var ctx = document.getElementById('myChart').getContext('2d');
+      let myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sleep amount [h]',
+                        data: data,
+                        // backgroundColor: [
+                        //     'rgba(255, 99, 132, 0.8)',
+                        //     'rgba(54, 162, 235, 0.8)',
+                        //     'rgba(255, 206, 86, 0.8)',
+                        //     'rgba(75, 192, 192, 0.8)',
+                        //     'rgba(153, 102, 255, 0.8)',
+                        //     'rgba(255, 159, 64, 0.8)',
+                        //     'rgba(240, 120, 50, 0.8)',
+                        // ],
+                        // borderColor: [
+                        //     'rgba(255, 99, 132, 1)',
+                        //     'rgba(54, 162, 235, 1)',
+                        //     'rgba(255, 206, 86, 1)',
+                        //     'rgba(75, 192, 192, 1)',
+                        //     'rgba(153, 102, 255, 1)',
+                        //     'rgba(255, 159, 64, 1)',
+                        //     'rgba(240, 120, 50, 1)',
+
+                        // ],
+                        
+                        
+                    }]
+                },
+                options: {
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 200,
+                    minRotation: 200
+                },
+                  responsive: true,
+
+                scales: {
+                    yAxes: [{
+                      ticks: {
+                        beginAtZero: true
+            }
+        }]
+
+
+                  }
+                }
+            });
+    </script>
+
+{% endblock %}

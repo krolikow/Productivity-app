@@ -21,11 +21,8 @@ import datetime
 from datetime import datetime as datetime_custom
 from django.db.models import Q
 
-from .models import Task,Data,Tracker
+from .models import Task
 from .forms import ShoppingForm
-
-
-################ TASKS ##############################
 
 
 class TaskList(LoginRequiredMixin, ListView):
@@ -75,68 +72,3 @@ class DeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('tasks')
 
 
-
-class TrackerList(ListView):   
-    model = Tracker
-    template_name = "planner/trackers.html"
-
-
-@login_required(login_url='login')
-def tracker_page(request):
-
-    filter_context = {}
-    base_url = f''
-    date_from_html = ''
-    date_to_html = ''
-
-    data_set =  Data.objects.filter(
-        user = request.user
-    ).order_by('-date')
-
-    try:
-
-        if 'date_from' in request.GET and request.GET['date_from'] != '':
-            date_from = datetime_custom.strptime(request.GET['date_from'],'%Y-%m-%d')
-            filter_context['date_from'] = request.GET['date_from']
-            date_from_html = request.GET['date_from']
-
-            if 'date_to' in request.GET and request.GET['date_to'] != '':
-
-                date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
-                filter_context['date_to'] = request.GET['date_to']
-                date_to_html = request.GET['date_to']
-                data_set = data_set.filter(
-                    Q(date__gte = date_from )
-                    &
-                    Q(date__lte = date_to)
-                ).order_by('-date')
-
-            else:
-                data_set = data_set.filter(
-                    date__gte = date_from
-                ).order_by('-date')
-
-        elif 'date_to' in request.GET and request.GET['date_to'] != '':
-
-            date_to_html = request.GET['date_to']
-            date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
-            filter_context['date_from'] = request.GET['date_to']
-            data_set = data_set.filter(
-                date__lte = date_to
-            ).order_by('-date')
-    
-    except:
-        messages.error(request,'Something went wrong')
-        return redirect('trackers')
-    
-    base_url = f'?date_from={date_from_html}&date_to={date_to_html}&'
-    paginator = Paginator(data_set,5)
-    page_number = request.GET.get('page')
-    page_expenses = Paginator.get_page(paginator,page_number)
-
-    return render(request,'expense_app/expense.html',{
-        'page_expenses':page_expenses,
-        'expenses':expenses,
-        'filter_context':filter_context,
-        'base_url':base_url
-    })

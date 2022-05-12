@@ -1,0 +1,29 @@
+<form method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <div class="form-group">
+        <label for="">Amount</label>
+        <input class="form-control form-control-sm" type = "number" name="amount" value = "{{ values.amount }}" >
+    </div>
+    <div class="form-group">
+        <label for="">Description</label>
+        <input class="form-control form-control-sm" type = "text" name="description" value = "{{ values.description }}">
+    </div>
+    <div class="form-group">
+        <label for="">Tracker</label>
+        <select class="form-control form-control-sm" name="tracker">
+            {% for tracker in trackers %}
+                <option name = "tracker" value="{{tracker.title}}">{{tracker.title}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="">Date of Expense</label>
+        <input class="form-control form-control-sm" type = "date" name="expense_date">
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Save Date</button>
+    </div>
+</form>

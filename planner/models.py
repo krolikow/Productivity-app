@@ -31,22 +31,3 @@ class Task(models.Model):
         ordering = ['complete']
 
 
-
-
-
-class Tracker(models.Model):
-    title = models.CharField(max_length = 40)
-
-    def __str__(self):
-        return self.title
-
-
-class Data(models.Model):
-	user = models.ForeignKey(to = User,on_delete=models.CASCADE)
-	amount = models.FloatField()
-	date = models.DateField(default = localtime)
-	description = models.TextField()
-	created_at = models.DateTimeField(default=localtime)
-
-	def __str__(self):
-		return str(self.date )+ str(self.amount)

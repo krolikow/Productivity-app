@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'planner.apps.PlannerConfig',
     'users.apps.UsersConfig',
-    'shopping_list.apps.ShoppingListConfig'
+    'shopping_list.apps.ShoppingListConfig',
+    'trackers.apps.TrackersConfig',
+    'chartjs',
 ]
 
 MIDDLEWARE = [
