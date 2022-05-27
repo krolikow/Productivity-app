@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>{{ title }}</h3>
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<form method="post">
+    {% csrf_token %}
+
+    {% buttons %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {% endbuttons %}
+
+    <input type="submit" value="Submit" />
+    <input type="Submit" value="Submit">
+    <input value="Cancel" type="button" onclick="location.href='{% url "tracker" tracker.id %}';" />
+    {% if object %}
+    <input value="Delete this data" type="button"
+        onclick=" location.href='{% url "data-delete" tracker.id object.id %}' ">
+    {% endif %}
+</form>
+
+{% endblock %}

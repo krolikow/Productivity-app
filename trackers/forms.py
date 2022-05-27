@@ -1,14 +1,22 @@
 from django import forms
 from . models import Data
+from django import forms
+from django.forms import ModelForm
 
-class DataForm(forms.ModelForm):
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class DataForm(ModelForm):
+    # def clean_data(self):
+    #     cleaned_data = self.clean()
+    #     data = cleaned_data.get('data')
+#         if not 
+# modelName.objects.filter(pk='id').exists()
     class Meta:
         model = Data
-        fields = [    amount ,
-    date ,
-    description,
-    created_at ]
+        fields = ['tracker','title','date','amount','description']
         widgets = {
-            'category': forms.TextInput(attrs={'class': 'form-control'}),
-            'num_of_products': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+            'date': DateInput(),
+        }       

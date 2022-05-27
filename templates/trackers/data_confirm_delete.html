@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h3>Delete Data</h3>
+
+<p>Are you sure you want to delete the data: <b>{{ object.title }}</b>
+    <p>from the list <i>{{ shopping_list.title }}</i>?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input value="Yes,delete." type="submit">
+        <input value="Cancel" type="button" onclick="location.href='{% url "tracker" tracker.id %}';" />
+    </form>
+
+    {% endblock %}

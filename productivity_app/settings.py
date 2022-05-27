@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'shopping_list.apps.ShoppingListConfig',
     'trackers.apps.TrackersConfig',
     'chartjs',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

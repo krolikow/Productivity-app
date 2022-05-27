@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic.list import ListView
 from django.contrib import messages
 from django.utils.timezone import localtime
+from trackers.forms import DataForm
 from trackers.models import Data, Tracker
 from users.models import Profile
 from django.views.generic.detail import DetailView
@@ -22,14 +23,14 @@ from django.db.models import Sum
 import xlwt
 import pandas as pd
 import datetime
-from datetime import datetime as datetime_custom
+from datetime import date, datetime as datetime_custom
 from django.db.models import Q
 from chartjs.views.lines import BaseLineChartView
 from django.http import JsonResponse
 import datetime
 import itertools
-
-
+from django import forms
+from bootstrap_datepicker_plus.widgets import DatePickerInput,DateTimePickerInput
 
 class TrackerList(ListView):   
     model = Tracker
@@ -134,7 +135,6 @@ def tracker_page(request,tracker_id):
     })
 
 
-# todo
 @login_required(login_url='login')
 def add_data(request,tracker_id):
         
@@ -187,3 +187,148 @@ def add_data(request,tracker_id):
 
     messages.success(request,'Data Saved Successfully')
     return redirect('tracker')
+
+
+class TrackerListView(ListView):
+    model = Tracker
+    template_name = "trackers/trackers.html"
+
+class DataListView(ListView):
+    model = Data
+    template_name = "trackers/tracker.html"
+
+    labels = []
+    data = []
+
+    # queryset = 
+    # for entry in queryset:
+    #     labels.append(entry.date)
+    #     data.append(entry.amount)
+    # items = Data.objects.all()
+
+    def get_queryset(self):
+        return Data.objects.filter(tracker_id=self.kwargs["tracker_id"]).order_by('-date')
+
+    def get_context_data(self,**kwargs):
+        context = super(DataListView,self).get_context_data(**kwargs)
+        context["tracker"] = Tracker.objects.get(id=self.kwargs["tracker_id"])
+        context["items"] = Data.objects.all()
+        context["labels"] = [x[0] for x in list(Data.objects.values_list("date"))]
+        context["data"] = [x[0] for x in list(Data.objects.values_list("amount"))]
+        return context
+
+from django.contrib.admin.widgets import AdminDateWidget
+from django.forms.fields import DateField
+
+class TrackerCreate(CreateView):
+    model = Tracker
+    fields = ["title"]
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["title"] = "Add a new tracker"
+        return context
+
+class DateInput(forms.DateInput):
+    input_type: 'date'
+# class DataCreate(CreateView):
+#     model = Data
+#     fields = [
+#         "tracker",
+#         "title",
+#         "amount",
+#         "date",
+#         "description"
+#     ]
+
+#     widgets= {"date":DateField()}
+#     def get_initial(self):
+#         initial_data = super().get_initial()
+#         tracker = Tracker.objects.get(id=self.kwargs["tracker_id"])
+#         initial_data["tracker"] = tracker
+#         return initial_data
+
+#     def get_context_data(self):
+#         context = super().get_context_data()
+#         tracker = Tracker.objects.get(id=self.kwargs["tracker_id"])
+#         context["tracker"] = tracker
+#         context["title"] = "Create a new data"
+#         return context
+
+#     def get_success_url(self):
+#         return reverse("tracker", args=[self.object.tracker_id])
+
+class DataCreate(CreateView):
+    model = Data
+    form_class= DataForm
+    # fields = [
+    #     "tracker",
+    #     "title",
+    #     "date",
+    #     "amount",
+    #     "description"
+    # ]
+
+    # date = forms.DateTimeField(
+    #     input_formats=['%d/%m/%Y %H:%M'],
+    #     widget=forms.DateTimeInput(attrs={
+    #         'class': 'form-control datetimepicker-input',
+    #         'data-target': '#datetimepicker1'
+    #     })
+    # )
+
+    # def get_form(self):
+    #     form = super().get_form()
+    #     form.fields["date"].widget = forms.DateInput(attrs={'type':'date'})
+    #     return form
+
+
+    def get_initial(self):
+        initial_data = super().get_initial()
+        tracker = Tracker.objects.get(id=self.kwargs["tracker_id"])
+        initial_data["tracker"] = tracker
+        return initial_data
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data()
+        tracker = Tracker.objects.get(id=self.kwargs["tracker_id"])
+        context["tracker"] = tracker
+        context["title"] = "Create a new data"
+        return context
+
+    def get_success_url(self):
+        return reverse("tracker", args=[self.object.tracker_id])
+
+class TrackerDelete(DeleteView):
+    model = Tracker
+    success_url = reverse_lazy("trackers")
+
+
+class DataDelete(DeleteView):
+    model = Data
+
+    def get_success_url(self):
+        return reverse_lazy("tracker", args=[self.kwargs["tracker_id"]])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tracker"] = self.object.tracker
+        return context
+
+
+class DataUpdate(UpdateView):
+    model = Data
+    fields = [
+        "tracker",
+        "title"
+    ]
+
+    def get_success_url(self):
+        return reverse_lazy("tracker", args=[self.kwargs["tracker_id"]])
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["tracker"] = self.object.tracker
+        context["title"] = "Edit data"
+        return context
+
