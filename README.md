@@ -1,9 +1,6 @@
 # Readme 
 
-login i haslo do admina
 
-login: kozak
-haslo: pythonkkk
 
 
 # Productivity-app
