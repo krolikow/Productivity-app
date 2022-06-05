@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'shopping_list.apps.ShoppingListConfig',
     'trackers.apps.TrackersConfig',
+    'cal.apps.CalConfig',
+    'contacts.apps.ContactsConfig',
     'chartjs',
     'bootstrap4',
     'bootstrap_datepicker_plus',
@@ -81,7 +83,7 @@ TEMPLATES = [
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
-    # 'django.template.loaders.eggs.load_template_source',
+    'django.template.loaders.eggs.load_template_source',
 ]
 
 WSGI_APPLICATION = 'productivity_app.wsgi.application'

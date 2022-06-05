@@ -1,71 +1,16 @@
+
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-
-    <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@1&display=swap" rel="stylesheet">
 
     <title>Planner</title>
 
-<style>
-html {
-    height: 100%;
-}
 
-body {
-    height: 100%;
-    font-family: 'Xanh Mono', monospace;
-}
-
-.title{
-  word-wrap: break-word;
-  width: 150px;
-
-}
-
-.container-fluid {
-    height: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-.row-first {
-    padding-bottom: 5px;
-}
-
-.card.h-100{
-    min-width: 20rem;
-    background-color:rgb(168, 212, 212);
-    margin-top: 2rem;
-    width: auto;
-    max-width: 100%;
-}
-
-.card-body{
-    background-color: rgb(209, 230, 236);
-} 
-
-.task{
-    position: relative;
-    display: flex;
-    right: 0;
-    left: 0;
-    width: 100%;
-    border-bottom: solid 1px lightgrey; 
-    padding: 0.5rem;
-}
-
-a{
-  text-decoration: none;
-  color: rgb(46, 82, 82);
-}
-
-</style>
-
+{% extends "base.html" %}
   </head>
 
   <div class="header-bar">
@@ -73,10 +18,8 @@ a{
         <h1>Hello {{request.user|title}}</h1>
     </div>
 
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'logout' %}">Logout</a> {% else %}
-    <a href="{% url 'login' %}">Login</a> {% endif %}  
 </div>
+
 <div id="search-add-wrapper">
     <form method="GET" style="display: flex;">
         <input type='text' name='search-area' placeholder="Search your task" value="{{search_input}}">
@@ -84,19 +27,13 @@ a{
     </form>
 </div>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
 
-    </div>
-  </nav>
+{% block content %}
   <body>
 
     <div class="container-fluid">
         <div class="row h-100">
           <div class="row row-first h-50 ">
-
-
 
             <div class="col">
               <div class="card h-100">
@@ -106,7 +43,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='M' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -143,8 +80,8 @@ a{
                 </div>
                   <div class="card-body">
 
-                    <a href="{% url 'task-create' day='T' %}">Add Task</a> 
-                    
+                    <a href="{% url 'task-create' day='T' %}">Add Task</a>
+
                     <table>
                         <tr>
                         <th></th>
@@ -181,7 +118,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='W' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -219,7 +156,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='Th' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -248,8 +185,8 @@ a{
               </div>
             </div>
           </div>
-          <div class="row row-second h-50 ">      
- 
+          <div class="row row-second h-50 ">
+
               <div class="col">
               <div class="card h-100">
                 <div class="card-header text-dark bg-light text-center text-uppercase">
@@ -258,7 +195,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='F' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -297,7 +234,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='Sa' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -334,7 +271,7 @@ a{
                   <div class="card-body">
 
                     <a href="{% url 'task-create' day='Su' %}">Add Task</a>
-                    
+
                     <table>
                         <tr>
                         <th></th>
@@ -361,7 +298,7 @@ a{
                     </p>
                   </div>
               </div>
-            </div> 
+            </div>
 
 
             <div class="col">
@@ -377,25 +314,14 @@ a{
                     </p>
                   </div>
               </div>
-            </div> 
+            </div>
 
 </div>
 
 
 </div>
 </div>
-
-
-
-<!--    &lt;!&ndash; Optional JavaScript; choose one of the two! &ndash;&gt;-->
-
-     <!-- &lt;!&ndash; Option 1: Bootstrap Bundle with Popper &ndash;&gt;
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
-
-<!--    &lt;!&ndash; Option 2: Separate Popper and Bootstrap JS &ndash;&gt;-->
-<!--    &lt;!&ndash;-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>-->
-<!--    &ndash;&gt;-->
   </body>
+  {% endblock %}
 </html>
+

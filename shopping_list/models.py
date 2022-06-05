@@ -1,22 +1,23 @@
 from django.urls import reverse
 from django.db import models
 
+
 class ShoppingList(models.Model):
-    title = models.CharField(max_length = 50)
+    title = models.CharField(max_length=50)
 
     def get_absolute_url(self):
         return reverse("list", args=[self.id])
 
     def __str__(self):
         return self.title
-        
+
     class Meta:
-        ordering = ['title',]
+        ordering = ['title', ]
 
 
 class Item(models.Model):
-    title = models.CharField(max_length = 40)
-    complete = models.BooleanField(default = False)
+    title = models.CharField(max_length=40)
+    complete = models.BooleanField(default=False)
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
@@ -26,6 +27,6 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
-        
+
     class Meta:
-        ordering = ['complete',]
+        ordering = ['complete', ]
