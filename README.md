@@ -3,7 +3,7 @@
 Projekt zaliczeniowy z przedmiotu Programowanie w języku Python realizowanym na AGH UST w Krakowie
 
 - [x] zmergować wersje
-- [ ] trackery
+- [x] trackery
 - [ ] zmienić fakt, że dane są wspólne dla wszystkich użytkowników
 
 Shopping list: 
