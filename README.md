@@ -19,5 +19,4 @@ Powiadomienia:
 - [ ] zrobić xd
 
 Frontend:
-- [ ] bootstrap
 - [x] dodać navbar
