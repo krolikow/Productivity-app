@@ -2,7 +2,7 @@
 
 Projekt zaliczeniowy z przedmiotu Programowanie w języku Python realizowanym na AGH UST w Krakowie
 
-- [ ] zmergować wersje
+- [x] zmergować wersje
 - [ ] trackery
 - [ ] zmienić fakt, że dane są wspólne dla wszystkich użytkowników
 
@@ -15,6 +15,9 @@ Todo list:
 - [ ] dodać due date
 - [ ] naprawić wyszukiwanie po nazwie
 
+Powiadomienia:
+- [ ] zrobić xd
+
 Frontend:
 - [ ] bootstrap
-- [ ] dodać navbar
+- [x] dodać navbar
