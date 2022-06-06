@@ -1,9 +1,9 @@
-# Productivity-app
+# Productivity app
 
 Projekt zaliczeniowy z przedmiotu Programowanie w języku Python realizowanym na AGH UST w Krakowie
 
-- [ ] zmergować wersje
-- [ ] trackery
+- [x] zmergować wersje
+- [x] trackery
 - [ ] zmienić fakt, że dane są wspólne dla wszystkich użytkowników
 
 Shopping list: 
@@ -15,6 +15,10 @@ Todo list:
 - [ ] dodać due date
 - [ ] naprawić wyszukiwanie po nazwie
 
+Powiadomienia:
+- [ ] zrobić xd
+
 Frontend:
-- [ ] bootstrap
-- [ ] dodać navbar
+- [x] dodać navbar
+- [ ] css dla plannera
+- [ ] rozdzielić templates
