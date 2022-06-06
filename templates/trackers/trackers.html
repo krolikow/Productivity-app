@@ -5,9 +5,9 @@
 {% if object_list %}
 <h3>My trackers</h3>
 {% endif %}
-<ul>
+<ul class="list-group list-group-flush">
     {% for tracker in object_list %}
-    <li>
+    <li class="list-group-item">
         <div role="button"
             onclick="location.href='{% url "tracker" tracker.id %}'">
             {{ tracker.title }}

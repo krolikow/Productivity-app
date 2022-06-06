@@ -9,14 +9,14 @@ class DateInput(forms.DateInput):
 
 
 class DataForm(ModelForm):
-    # def clean_data(self):
-    #     cleaned_data = self.clean()
-    #     data = cleaned_data.get('data')
-#         if not 
-# modelName.objects.filter(pk='id').exists()
+
+    def clean(self):
+        cleaned_data = super(DataForm,self).clean()
+        return cleaned_data
+
     class Meta:
         model = Data
-        fields = ['tracker','title','date','amount','description']
+        fields = ['tracker','date','amount','description']
         widgets = {
             'date': DateInput(),
         }       

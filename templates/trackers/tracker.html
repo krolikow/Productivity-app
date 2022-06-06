@@ -14,6 +14,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Description</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -22,29 +23,23 @@
                     <td>{{data.date}}</td>
                     <td>{{data.amount}}</td>
                     <td>{{data.description | truncatechars:30 }}</td>
-                    <td>{{data.description | truncatechars:30 }}</td>
+                    <td>
+                        <a href='{% url "data-update" tracker.id data.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Edit</a>
+                    </td>
                   </tr>
+                 
                   {% endfor %}
                 </tbody>
               </table>
 
-            <div class="container-fluid"><div class="header-body"><div class="row align-items-center py-4">
-              <div class="col-lg-6 col-7"><nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4"></nav></div><div class="col-lg-6 col-5 text-right">
-                    <button id="week" class="btn btn btn-neutral">This Week</button>
-                    <button id="month" class="btn btn btn-neutral">This Month</button>
-                    <button id="year" class="btn btn btn-neutral">This Year</button>
-                  </div></div></div></div>
-
-                  <div class="chart-container" style="position: relative; height:500px; width: 1000px;">
+              <div class="chart-container" style="position: relative; height:500px; width: 1000px;">
       
-                    <canvas id="myChart" class="chart-canvas chartjs-render-monitor" width="1000" height="500"></canvas>
+              <canvas id="myChart" class="chart-canvas chartjs-render-monitor" width="1000" height="500"></canvas>
                     
-          {% else %}<h5 class="h3 text-white mb-0 text-center">Add data <a href=>one</a></h5>{% endif %}
-          <h5 style="display: none;" id="no-results" class="h3 text-danger mt-5 mb-0 text-center">No expenses found for searched item.</h5>
-      </div>
-      <input value="Add a new data" type="button" onclick="location.href='{% url "data-add" tracker.id %}'" />
-<input value="Delete this tracker" type="button"
-      onclick="location.href='{% url "tracker-delete" tracker.id %}'" />
+          {% else %} <p>There are no items in this list.</p>
+          {% endif %}
+      <a href='{% url "data-add" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Add a new data</a>
+      <a href='{% url "tracker-delete" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Delete this tracker</a>
     </div>
   </div>
 </div>
@@ -58,14 +53,13 @@
   var amount = [{% for elem in data %} '{{elem}}',  {% endfor %}] 
   var labels =  [{% for label in labels %} '{{label}}',  {% endfor %}]
 
-
   var colors = ['rgba(208, 232, 180, 0.8)', 'rgba(232, 180, 207, 0.8)']; 
   window.onload = function() {
     var bgColors = [];
     for (var i = 0; i < amount.length; i++) {
       bgColors.push(colors[i % colors.length]);  
     }
-  
+
   console.log("Dane:")
   console.log(amount)
   console.log("Labels:")
@@ -75,12 +69,14 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Sleep amount [h]',
                     data: amount,
                     backgroundColor: bgColors,
                 }]
             },
             options: {
+              legend: {
+                display: false 
+             },
               ticks: {
                 autoSkip: false,
                 maxRotation: 200,
@@ -96,6 +92,7 @@
     }]
               }
             }
+
         });  }
 </script>
 

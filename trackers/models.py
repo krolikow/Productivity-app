@@ -19,8 +19,8 @@ class Data(models.Model):
     tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE)
     title = models.CharField(max_length = 40)
     amount = models.FloatField()
-    date = models.DateField(default = localtime)
-    description = models.TextField()
+    date = models.DateField(default = localtime,unique=True)
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=localtime)
 
     def __str__(self):

@@ -10,12 +10,8 @@
 <form method="post">
     {% csrf_token %}
 
-    {% buttons %}
     {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary">Save</button>
-    {% endbuttons %}
 
-    <input type="submit" value="Submit" />
     <input type="Submit" value="Submit">
     <input value="Cancel" type="button" onclick="location.href='{% url "tracker" tracker.id %}';" />
     {% if object %}
