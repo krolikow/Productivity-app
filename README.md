@@ -20,5 +20,5 @@ Powiadomienia:
 
 Frontend:
 - [x] dodać navbar
-- [ ] css dla plannera
+- [x] css dla plannera
 - [ ] rozdzielić templates
