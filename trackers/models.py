@@ -19,7 +19,7 @@ class Data(models.Model):
     tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE)
     title = models.CharField(max_length = 40)
     amount = models.FloatField()
-    date = models.DateField(default = localtime,unique=True)
+    date = models.DateField(default = localtime)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=localtime)
 
@@ -28,3 +28,6 @@ class Data(models.Model):
 
     def get_absolute_url(self):
         return reverse('trackers:detail', kwargs={'pk': self.pk})
+    
+    class Meta:
+        unique_together = 'tracker','date'

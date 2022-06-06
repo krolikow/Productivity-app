@@ -1,3 +1,4 @@
+from django.db import transaction
 from pyexpat import model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
@@ -20,9 +21,10 @@ import pandas as pd
 import datetime
 from datetime import datetime as datetime_custom
 from django.db.models import Q
+from django.views import View
 
 from .models import Task
-from .forms import ShoppingForm
+from .forms import ShoppingForm, PositionForm
 
 
 class TaskList(LoginRequiredMixin, ListView):
@@ -31,7 +33,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #context['tasks'] = context['tasks'].filter(user=self.request.user)
+        context['tasks'] = context['tasks'].filter(user=self.request.user)
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
@@ -57,13 +59,15 @@ class TaskCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form): 
         form.instance.day = self.kwargs['day']
+        form.instance.user = self.request.user
         return super(TaskCreate, self).form_valid(form)
 
     success_url = reverse_lazy('tasks')
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = '__all__'
+    fields = ['title','description','complete']
+
     success_url = reverse_lazy('tasks')
 
 class DeleteView(LoginRequiredMixin, DeleteView):
@@ -71,4 +75,19 @@ class DeleteView(LoginRequiredMixin, DeleteView):
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
 
+    def get_queryset(self):
+        owner = self.request.user
+        return self.model.objects.filter(user=owner)
 
+
+class TaskReorder(View):
+    def post(self, request):
+        form = PositionForm(request.POST)
+
+        if form.is_valid():
+            positionList = form.cleaned_data["position"].split(',')
+
+            with transaction.atomic():
+                self.request.user.set_task_order(positionList)
+
+        return redirect(reverse_lazy('tasks'))

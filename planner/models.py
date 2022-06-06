@@ -14,20 +14,18 @@ class Task(models.Model):
         ('Su','Sunday'),
         ('X','Other'))
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    # todo: due-date
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null = True, blank = True)
     complete = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     day = models.CharField(max_length=15, choices=DAYS,default='X')
-    #user = mod.ForeignKey(
-        #User, on_delete=models.CASCADE, null=True, blank=True)
-    # todo: due-date
-
 
     def __str__(self):
         return self.title 
 
     class Meta:
-        ordering = ['complete']
+        order_with_respect_to = 'user'
 
 
