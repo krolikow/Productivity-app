@@ -4,6 +4,7 @@
 <a href="{% url 'tasks' %}">Back</a>
 <h1>Task details</h1>
 <h3>Task: {{task}}</h3>
+<h3>User: {{task.user}}</h3>
 <h3>Task description: {{task.description}}</h3>
 <h3>Task complete: {{task.complete}}</h3>
 <h3>Task creation date: {{task.creation_date}}</h3>

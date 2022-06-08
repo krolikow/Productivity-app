@@ -31,169 +31,22 @@ import datetime
 import itertools
 from django import forms
 from bootstrap_datepicker_plus.widgets import DatePickerInput,DateTimePickerInput
+from django.contrib.admin.widgets import AdminDateWidget
+from django.forms.fields import DateField
 
-class TrackerList(ListView):   
+
+class TrackerListView(LoginRequiredMixin,ListView):
     model = Tracker
+    context_object_name = 'trackers'
     template_name = "trackers/trackers.html"
 
-
-class TrackerView(ListView):
-    model = Data
-    template_name = "trackers/tracker.html"
-
-    def get_queryset(self):
-        return Data.objects.filter(tracker_id=self.kwargs["tracker_id"])
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["tracker"] = Data.objects.get(id=self.kwargs["tracker_id"])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trackers'] = context['trackers'].filter(user=self.request.user)
         return context
 
 
-class ChartView(BaseLineChartView):
-    def get_labels(self):
-        labels = []
-        data_set =  Data.objects.order_by('-date')
-
-        queryset = Data.objects.values('date').order_by('-date')
-        for entry in queryset:
-            labels.append(entry['date'])
-        return 
-
-    def get_data(self):
-        return [[75, 44, 92, 11, 44, 95, 35],
-                [41, 92, 18, 3, 73, 87, 92],
-                [87, 21, 94, 3, 90, 13, 65]]
-
-
-@login_required(login_url='login')
-def tracker_page(request,tracker_id):
-
-    filter_context = {}
-    base_url = f''
-    date_from_html = ''
-    date_to_html = ''
-
-    labels = []
-    data = []
-
-    queryset = Data.objects.order_by('-date')
-    for entry in queryset:
-        labels.append(entry.date)
-        data.append(entry.amount)
-    items = Data.objects.all()
-
-    # try:
-
-    #     if 'date_from' in request.GET and request.GET['date_from'] != '':
-    #         date_from = datetime_custom.strptime(request.GET['date_from'],'%Y-%m-%d')
-    #         filter_context['date_from'] = request.GET['date_from']
-    #         date_from_html = request.GET['date_from']
-
-    #         if 'date_to' in request.GET and request.GET['date_to'] != '':
-
-    #             date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
-    #             filter_context['date_to'] = request.GET['date_to']
-    #             date_to_html = request.GET['date_to']
-    #             data_set = data_set.filter(
-    #                 Q(date__gte = date_from )
-    #                 &
-    #                 Q(date__lte = date_to)
-    #             ).order_by('-date')
-
-    #         else:
-    #             data_set = data_set.filter(
-    #                 date__gte = date_from
-    #             ).order_by('-date')
-
-    #     elif 'date_to' in request.GET and request.GET['date_to'] != '':
-
-    #         date_to_html = request.GET['date_to']
-    #         date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
-    #         filter_context['date_from'] = request.GET['date_to']
-    #         data_set = data_set.filter(
-    #             date__lte = date_to
-    #         ).order_by('-date')
-    
-    # except:
-    #     messages.error(request,'Something went wrong')
-    #     return redirect('trackers')
-    
-    base_url = f'?date_from={date_from_html}&date_to={date_to_html}&'
-    # paginator = Paginator(data_set,5)
-    page_number = request.GET.get('page')
-
-    # return render(request,'./trackers/tracker.html',{
-    #     'data_set':data_set,
-    #     'filter_context':filter_context,
-    #     'base_url':base_url
-    # })
-    return render(request,'./trackers/tracker.html',{
-        'items' : items,
-        'labels': labels,
-        'data': data,
-    })
-
-
-@login_required(login_url='login')
-def add_data(request,tracker_id):
-        
-    data = Data.objects.filter(user=request.user)
-
-    context = {
-        'data' : data,
-        'values':request.POST
-    }
-
-    if request.method == 'GET':
-         return render(request,'trackers/add_data.html',context)
-
-    if request.method == 'POST':
-        amount = request.POST.get('amount','')
-        description = request.POST.get('description','')
-        date = request.POST.get('date','')
-        tracker = request.POST.get('tracker','')
-
-        if amount== '':
-            messages.error(request,'Amount cannot be empty')
-            return render(request,'trackers/add_data.html',context)
-            
-        amount = float(amount)
-        if amount <= 0:
-            messages.error(request,'Amount should be greater than zero')
-            return render(request,'trackers/add_data.html',context)
-
-        if description == '':
-            messages.error(request,'Description cannot be empty')
-            return render(request,'trackers/add_data.html',context)
-
-        if tracker == '':
-            messages.error(request,'ExpenseCategory cannot be empty')
-            return render(request,'trackers/add_data.html',context)
-
-        if date == '':
-            date = localtime()
-
-        created_at = localtime()
-        tracker_object = Tracker.objects.get()
-        # data_obj = ExpenseCategory.objects.get(user=request.user,name =category)
-        Data.objects.create(
-            user=request.user,
-            amount=amount,
-            date=date,
-            description=description,
-            tracker = tracker_object
-    ).save()
-
-    messages.success(request,'Data Saved Successfully')
-    return redirect('tracker')
-
-
-class TrackerListView(ListView):
-    model = Tracker
-    template_name = "trackers/trackers.html"
-
-class DataListView(ListView):
+class DataListView(LoginRequiredMixin,ListView):
     model = Data
     template_name = "trackers/tracker.html"
 
@@ -208,19 +61,21 @@ class DataListView(ListView):
         context["data"] = [x[0] for x in list(Data.objects.values_list("amount").filter(tracker_id=self.kwargs["tracker_id"]).order_by('-date')[::-1])]
         return context
 
-from django.contrib.admin.widgets import AdminDateWidget
-from django.forms.fields import DateField
 
-class TrackerCreate(CreateView):
+class TrackerCreate(LoginRequiredMixin,CreateView):
     model = Tracker
     fields = ["title"]
+    
+    def form_valid(self, form): 
+        form.instance.user = self.request.user
+        return super(TrackerCreate, self).form_valid(form)
 
     def get_context_data(self):
         context = super().get_context_data()
         context["title"] = "Add a new tracker"
         return context
 
-class DataCreate(CreateView):
+class DataCreate(LoginRequiredMixin,CreateView):
     model = Data
     form_class= DataForm
 
@@ -240,12 +95,12 @@ class DataCreate(CreateView):
     def get_success_url(self):
         return reverse("tracker", args=[self.object.tracker_id])
 
-class TrackerDelete(DeleteView):
+class TrackerDelete(LoginRequiredMixin,DeleteView):
     model = Tracker
     success_url = reverse_lazy("trackers")
 
 
-class DataDelete(DeleteView):
+class DataDelete(LoginRequiredMixin,DeleteView):
     model = Data
 
     def get_success_url(self):
@@ -257,7 +112,7 @@ class DataDelete(DeleteView):
         return context
 
 
-class DataUpdate(UpdateView):
+class DataUpdate(LoginRequiredMixin,UpdateView):
     model = Data
     form_class= DataForm
 

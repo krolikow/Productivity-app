@@ -2,11 +2,11 @@
 
 {% block content %}
 <!--contacts.html-->
-{% if object_list %}
+{% if trackers %}
 <h3>My trackers</h3>
 {% endif %}
 <ul class="list-group list-group-flush">
-    {% for tracker in object_list %}
+    {% for tracker in trackers %}
     <li class="list-group-item">
         <div role="button"
             onclick="location.href='{% url "tracker" tracker.id %}'">
@@ -18,7 +18,8 @@
     {% endfor %}
 </ul>
 <p>
-
+    <input value="Add a new tracker" type="button"
+        onclick="location.href='{% url "tracker-add" %}'" />
 </p>
 
 {% endblock %}

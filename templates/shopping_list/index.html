@@ -3,11 +3,11 @@
 
 {% block content %}
 <!--contacts.html-->
-{% if object_list %}
+{% if lists %}
 <h3>All my lists</h3>
 {% endif %}
 <ul>
-    {% for shopping_list in object_list %}
+    {% for shopping_list in lists %}
     <li>
         <div role="button"
             onclick="location.href='{% url "list" shopping_list.id %}'">

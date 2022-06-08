@@ -6,6 +6,7 @@ from django.utils.timezone import localtime
 
 class Tracker(models.Model):
     title = models.CharField(max_length = 40)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse("tracker", args=[self.id])
@@ -15,7 +16,6 @@ class Tracker(models.Model):
 
 
 class Data(models.Model):
-    # user = models.ForeignKey(to = User,on_delete=models.CASCADE)
     tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE)
     title = models.CharField(max_length = 40)
     amount = models.FloatField()

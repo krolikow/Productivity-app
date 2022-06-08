@@ -230,7 +230,7 @@
                     <a href="{% url 'task-create' day='M' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'M' %}
                         
                         <tr class = 'task'>
@@ -250,7 +250,7 @@
                         {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -273,7 +273,7 @@
                     <a href="{% url 'task-create' day='T' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'T' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -292,7 +292,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -314,7 +314,7 @@
                     <a href="{% url 'task-create' day='W' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'W' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -333,7 +333,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -356,7 +356,7 @@
                     <a href="{% url 'task-create' day='Th' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'Th' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -375,7 +375,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -399,7 +399,7 @@
                     <a href="{% url 'task-create' day='F' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'F' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -418,7 +418,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -440,7 +440,7 @@
                     <a href="{% url 'task-create' day='Sa' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'Sa' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -459,7 +459,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                          No tasks for today
                         </h3>
                         {% endfor %}
                     </table>
@@ -481,7 +481,7 @@
                     <a href="{% url 'task-create' day='Su' %}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" style="margin-bottom:1em;">Add Task</a>
 
                     <table>
-                        {% for task in object_list %}
+                        {% for task in tasks %}
                         {% if task.day == 'Su' %}
                         <tr class = 'task'>
                           {% if task.complete %}
@@ -500,7 +500,7 @@
                       {% endif %}
                         {% empty %}
                         <h3>
-                            No items in list
+                            No tasks for today
                         </h3>
                         {% endfor %}
                     </table>

@@ -10,7 +10,12 @@ from shopping_list.models import ShoppingList,Item
 class ListListView(ListView):
     model = ShoppingList
     template_name = "shopping_list/index.html"
+    context_object_name = 'lists'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['lists'] = context['lists'].filter(user=self.request.user)
+        return context
 
 class ItemListView(ListView):
     model = Item
@@ -34,6 +39,9 @@ class ListCreate(CreateView):
         context["title"] = "Add a new list"
         return context
 
+    def form_valid(self, form): 
+        form.instance.user = self.request.user
+        return super(ListCreate, self).form_valid(form)
 
 class ItemCreate(CreateView):
     model = Item
@@ -41,7 +49,7 @@ class ItemCreate(CreateView):
         "shopping_list",
         "title",
     ]
-
+    
     def get_initial(self):
         initial_data = super().get_initial()
         shopping_list = ShoppingList.objects.get(id=self.kwargs["list_id"])

@@ -36,7 +36,7 @@
       
               <canvas id="myChart" class="chart-canvas chartjs-render-monitor" width="1000" height="500"></canvas>
                     
-          {% else %} <p>There are no items in this list.</p>
+          {% else %} <p>There are no data in this tracker.</p>
           {% endif %}
       <a href='{% url "data-add" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Add a new data</a>
       <a href='{% url "tracker-delete" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Delete this tracker</a>
