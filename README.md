@@ -4,7 +4,7 @@ Projekt zaliczeniowy z przedmiotu Programowanie w języku Python realizowanym na
 
 - [x] zmergować wersje
 - [x] trackery
-- [ ] zmienić fakt, że dane są wspólne dla wszystkich użytkowników
+- [x] zmienić fakt, że dane są wspólne dla wszystkich użytkowników (zrobione dla trackerów, todo lists, shopping lists)
 
 Shopping list: 
 - [ ] dodać jednostki 
