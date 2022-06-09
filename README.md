@@ -7,8 +7,8 @@ Projekt zaliczeniowy z przedmiotu Programowanie w języku Python realizowanym na
 - [x] zmienić fakt, że dane są wspólne dla wszystkich użytkowników (zrobione dla trackerów, todo lists, shopping lists)
 
 Shopping list: 
-- [ ] dodać jednostki 
-- [ ] dodać pole kategorii
+- [x] dodać jednostki 
+- [x] dodać pole kategorii
 - [ ] dodać filtrowanie po kategorii
 
 Todo list:
