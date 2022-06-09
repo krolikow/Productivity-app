@@ -4,12 +4,12 @@ from .models import Contact
 # Create your views here.
 
 def index(request):
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.filter(user=request.user)
     search_input = request.GET.get('search-area')
     if search_input:
         contacts = Contact.objects.filter(full_name__icontains=search_input)
     else:
-        contacts = Contact.objects.all()
+        contacts = Contact.objects.filter(user=request.user)
         search_input = ''
     return render(request, 'contacts.html', {'contacts': contacts, 'search_input': search_input})
 
@@ -24,6 +24,7 @@ def addContact(request):
             address=request.POST['address'],
             )
         new_contact.save()
+        request.user.contacts.add(new_contact)
         return redirect('/contacts')
 
     return render(request, 'new.html')
