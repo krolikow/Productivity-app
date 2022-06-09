@@ -40,8 +40,14 @@
           {% endif %}
       <a href='{% url "data-add" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Add a new data</a>
       <a href='{% url "tracker-delete" tracker.id %}' class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Delete this tracker</a>
+
     </div>
+  <br></br>
+  <a href='{% url "trackers" %}' class="btn btn-secondary btn-lg active" 
+  style="background-color:rgb(194, 44, 14);color:white
+  role="button" aria-pressed="true">Back</a>
   </div>
+
 </div>
 
 

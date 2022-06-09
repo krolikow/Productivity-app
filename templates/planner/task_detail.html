@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a href="{% url 'tasks' %}">Back</a>
-<h1>Task details</h1>
-<h3>Task: {{task}}</h3>
-<h3>User: {{task.user}}</h3>
-<h3>Task description: {{task.description}}</h3>
-<h3>Task complete: {{task.complete}}</h3>
-<h3>Task creation date: {{task.creation_date}}</h3>
-<h3>Task day: {{task.day}}</h3>
-    
+<br>
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        Task details:
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Task: {{task}}</li>
+        <li class="list-group-item">Task description: {{task.description}}</li>
+        <li class="list-group-item">Task complete: {{task.complete}}</li>
+      </ul>
+    </div>
+
+<a href='{% url "tasks" %}' class="btn btn-secondary btn-lg active" 
+style="background-color:rgb(194, 44, 14);color:white
+role="button" aria-pressed="true">Back</a>
 {% endblock %}

@@ -4,11 +4,12 @@
 {% block content %}
 <!--contacts.html-->
 {% if lists %}
-<h3>All my lists</h3>
+<h3>My lists</h3>
 {% endif %}
-<ul>
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
     {% for shopping_list in lists %}
-    <li>
+    <li class="list-group-item">
         <div role="button"
             onclick="location.href='{% url "list" shopping_list.id %}'">
             {{ shopping_list.title }}
@@ -18,9 +19,12 @@
     <h4>You have no lists!</h4>
     {% endfor %}
 </ul>
-<p>
-    <input value="Add a new list" type="button"
-        onclick="location.href='{% url "list-add" %}'" />
-</p>
+
+<a href='{% url "list-add" %}' class="btn btn-primary btn-lg active" 
+role="button" aria-pressed="true">Add a new list</a>
+
+<a href='{% url "tasks" %}' class="btn btn-secondary btn-lg active" 
+style="background-color:rgb(194, 44, 14);color:white
+role="button" aria-pressed="true">Back</a>
 
 {% endblock %}

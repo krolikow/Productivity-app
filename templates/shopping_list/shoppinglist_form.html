@@ -5,11 +5,17 @@
 <h3>{{ title }}</h3>
 <div>
     <div>
+        {% load bootstrap4 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='full' %}
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input value="Save" type="submit">
-            <input value="Cancel" type="button" onclick="location.href='{% url "index" %}';">
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-lg" 
+            type="submit">Save</button>
+
+            <a href='{% url "index" %}' class="btn btn-primary btn-lg active" 
+            role="button" aria-pressed="true">Back</a>
         </form>
     </div>
  </div>

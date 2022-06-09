@@ -1,18 +1,25 @@
-{% extends "base.html" %}
+{% include "base.html" %}
 
 {% block content %}
 
 <h3>{{ title }}</h3>
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
 <form method="post">
     {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="Submit" value="Submit">
-    <input value="Cancel" type="button" onclick="location.href='{% url "list" shopping_list.id %}';" />
+
+    {% bootstrap_form form %}
+
+
+    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+    <a href='{% url "list" shopping_list.id %}' class="btn btn-primary btn-lg " 
+    role="button" aria-pressed="true">Cancel</a>
+
     {% if object %}
-    <input value="Delete this item" type="button"
-        onclick=" location.href='{% url "item-delete" shopping_list.id object.id %}' ">
+    <a href='{% url "item-delete" shopping_list.id object.id %}' class="btn btn-primary btn-lg " 
+    role="button" aria-pressed="true">Delete this item</a>
     {% endif %}
 </form>
 

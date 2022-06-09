@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from shopping_list.models import ShoppingList,Item
-
+from shopping_list.forms import ItemForm
 
 class ListListView(ListView):
     model = ShoppingList
@@ -45,10 +45,7 @@ class ListCreate(CreateView):
 
 class ItemCreate(CreateView):
     model = Item
-    fields = [
-        "shopping_list",
-        "title",
-    ]
+    form_class= ItemForm
     
     def get_initial(self):
         initial_data = super().get_initial()

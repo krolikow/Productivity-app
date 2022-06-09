@@ -2,10 +2,14 @@
 
 {% block content %}
 <h3>Task form</h3>
-<a href="{% url 'tasks' %}">Back</a>
+
 <form method = "POST" action = "">
     {% csrf_token %}
     {{form.as_p}}
-    <input type="submit" value = "Submit">
+    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
 </form>
+<br>
+<a href='{% url "tasks" %}' class="btn btn-secondary btn-lg active" 
+style="background-color:rgb(194, 44, 14);color:white
+role="button" aria-pressed="true">Back</a>
 {% endblock %}

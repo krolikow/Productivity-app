@@ -18,8 +18,13 @@
     {% endfor %}
 </ul>
 <p>
-    <input value="Add a new tracker" type="button"
-        onclick="location.href='{% url "tracker-add" %}'" />
+    <br>
+    <a href='{% url "tracker-add" %}' class="btn btn-primary btn-lg" 
+    role="button" aria-pressed="true">Add a new tracker</a>
+
 </p>
 
+<a href='{% url "tasks" %}' class="btn btn-secondary btn-lg active" 
+style="background-color:rgb(194, 44, 14);color:white
+role="button" aria-pressed="true">Back</a>
 {% endblock %}
